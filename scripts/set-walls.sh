@@ -7,11 +7,13 @@ hyprpaper &
 
 # preload all wallpapers once 
 for wall in "${walls[@]}"; do
-    hyprctl hyprpaper preload "$wall"
+	hyprctl hyprpaper preload "$wall"
 done
 
-for wall in "${walls[@]}"; do
-	# set wallpaper
+# cycle forever, picking random ones
+while true; do
+	wall="${walls[RANDOM % ${#walls[@]}]}"
 	hyprctl hyprpaper wallpaper "eDP-1,$wall"
-	sleep 10 # change wallpaper every five minuts 
+
+	sleep 300   # 5 minutes
 done
