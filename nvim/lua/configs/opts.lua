@@ -8,3 +8,6 @@ opt.relativenumber = true
 opt.tabstop = 2
 opt.shiftwidth = 2
 opt.termguicolors = true
+opt.autoindent = true
+opt.colorcolumn = "80"
+opt.cursorline = true
