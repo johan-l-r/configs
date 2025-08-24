@@ -1,0 +1,23 @@
+[mgr]
+ratio = [2, 4, 2]
+show_hidden = true
+sort_by = "extension"
+linemode = "size"
+tab_size = 2
+
+[opener]
+play = [
+	{ run = 'nsxiv "$@"' }	
+]
+edit = [
+	{ run = 'nvim "$@"', block = true }
+]
+
+[open]
+rules = [
+	{ name = "*.png", use = "play" }, 
+	{ name = "*.jpeg", use = "play" }, 
+	{ name = "*.jpg", use = "play" }, 
+
+	{ name = "*.toml", use = "edit" }
+]
