@@ -9,5 +9,5 @@ opt.tabstop = 2
 opt.shiftwidth = 2
 opt.termguicolors = true
 opt.autoindent = true
-opt.colorcolumn = "80"
+opt.colorcolumn = "100"
 opt.cursorline = true
