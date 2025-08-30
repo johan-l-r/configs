@@ -1,0 +1,26 @@
+#window {
+	background: #080808;
+	font-family: "Terminess Nerd Font";
+	font-size: 28px;
+	color: #bdbdbd;
+	border: 1px solid #dbdbdb;
+	border-radius: 10px;
+}
+#outer-box {
+	padding: 15px;
+	border-radius: 5px;
+}
+#input {
+	background: #080808;
+	color: #bdbdbd;
+	border: none;
+}
+#img {
+	margin-right: 20px;
+}
+#entry:selected {
+	background: #dbdbdb;
+}
+#text:selected {
+	color: #080808;
+}

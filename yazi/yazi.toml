@@ -19,5 +19,12 @@ rules = [
 	{ name = "*.jpeg", use = "play" }, 
 	{ name = "*.jpg", use = "play" }, 
 
-	{ name = "*.toml", use = "edit" }
+	{ name = "*.conf", use = "edit" }, 
+	{ name = "*.sh", use = "edit" }, 
+	{ name = "*.css", use = "edit" }, 
+	{ name = "*.html", use = "edit" }, 
+	{ name = "*.js", use = "edit" }, 
+	{ name = "*.py", use = "edit" }, 
+	{ name = "*.lua", use = "edit" }, 
+	{ name = "*.toml", use = "edit" }, 
 ]
