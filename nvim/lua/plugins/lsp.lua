@@ -31,9 +31,29 @@ return {
 		})
 
 		for _, server in ipairs(servers) do 
-			lspconf[server].setup({
+			local opts = {
 				capabilities = capabilities
-			})
+			}
+
+			if server == "lua_ls" then
+				opts.settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT", -- Neovim’s Lua runtime
+						},
+						diagnostics = {
+							globals = { "vim" }, -- Recognize the `vim` global
+						},
+						workspace = {
+							library = vim.api.nvim_get_runtime_file("", true),
+							checkThirdParty = false,
+						},
+						telemetry = { enable = false },
+					},
+				}
+			end
+
+			lspconf[server].setup(opts)
 		end
 	end
 }
