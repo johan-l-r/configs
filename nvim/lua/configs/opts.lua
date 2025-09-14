@@ -12,3 +12,4 @@ opt.termguicolors = true
 opt.autoindent = true
 opt.colorcolumn = "100"
 opt.cursorline = true
+opt.swapfile = false

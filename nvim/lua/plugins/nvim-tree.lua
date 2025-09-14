@@ -32,7 +32,10 @@ return {
 				enable = true,
         show_on_dirs = true
 			}, 
-			modified = { enable = true }
+			modified = { enable = true }, 
+      filters = { 
+        git_ignored = false
+      }
 		})
 
 		km.set(
