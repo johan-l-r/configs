@@ -4,4 +4,5 @@ vim.g.loaded_netrwPlugin = 1
 
 require("configs.keymaps")
 require("configs.opts")
+require("configs.autocmds")
 require("lazy-pm")
