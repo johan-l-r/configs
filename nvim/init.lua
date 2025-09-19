@@ -14,6 +14,7 @@ opt.tabstop = 2
 opt.expandtab = true
 opt.colorcolumn = "100"
 opt.autoindent = true
+opt.splitright = true
 
 -- KEYMAPS 
 function set_km(keys, action, desc, mode)
@@ -99,9 +100,33 @@ set_km("<leader>eo", "<cmd>NvimTreeToggle<cr>", "toggle file explorer")
 -- fzf-lua 
 local fzf = require("fzf-lua")
 
+fzf.setup({
+  file_icon_padding = " ", 
+  
+  winopts = {
+    fullscreen = true, 
+
+    preview = { 
+      layout = "vertical",  
+      vertical = "up:45%"
+    }
+  }, 
+  actions = {
+    files = { 
+      [ "ctrl-o" ] = fzf.actions.file_edit_or_qf, 
+      [ "ctrl-l" ] = fzf.actions.file_vsplit
+    }
+  }
+})
+
+-- files/buffers
 set_km("<leader>ff", fzf.files, "find files on current dir")
-set_km("<leader>fb", fzf.buffers, "list buffers")
+set_km("<leader>fC", function() fzf.files({ cwd = "~/.config/" }) end, "find config files")
+set_km("<leader>lb", fzf.buffers, "list buffers")
+
+-- grep
 set_km("<leader>fp", fzf.grep, "grep pattern")
 set_km("<leader>fc", fzf.grep_cword, "grep pattern under cursor")
-set_km("<leader>fg", fzf.git_diff, "grep pattern under cursor")
-set_km("<leader>fC", function() fzf.files({ cwd = "~/.config/" }) end, "find config files")
+
+set_km("<leader>lh", fzf.git_hunks, "list hunks")
+set_km("<leader>lm", fzf.git_commits, "list project commits")
