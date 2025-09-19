@@ -34,6 +34,8 @@ set_km("<leader>q", "<cmd>q<cr>", "quit active buffer")
 set_km("<leader>w", "<cmd>w<cr>", "write active buffer")
 
 -- splits
+set_km("<leader>vs", "<cmd>vsplit<cr>", "open a new vertical split")
+set_km("<leader>hs", "<cmd>split<cr>", "open a new horizontal split")
 set_km("<C-h>", "<C-W>h", "move to left split")
 set_km("<C-j>", "<C-W>j", "move to top split")
 set_km("<C-k>", "<C-W>k", "move to bottom split")
@@ -45,6 +47,7 @@ vim.pack.add({
   { src = "https://github.com/nvim-tree/nvim-tree.lua" }, 
   { src = "https://github.com/nvim-tree/nvim-web-devicons" }, 
   { src = "https://github.com/bluz71/vim-moonfly-colors" }, 
+  { src = "https://github.com/ibhagwan/fzf-lua" }, 
 })
 
 -- theme
@@ -69,8 +72,36 @@ signs.setup({
 })
 
 -- nvimtree
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  view = {
+    width = 25, 
+    number = true,
+    relativenumber = true
+  }, 
+  renderer = {
+    full_name = true,
+
+    indent_markers = {
+      enable = true
+    },
+
+    icons = {
+      web_devicons = { 
+        folder = { enable = true }, 
+      }
+    },
+  }, 
+  modified = { enable = true }
+})
 
 set_km("<leader>eo", "<cmd>NvimTreeToggle<cr>", "toggle file explorer")
 
+-- fzf-lua 
+local fzf = require("fzf-lua")
 
+set_km("<leader>ff", fzf.files, "find files on current dir")
+set_km("<leader>fb", fzf.buffers, "list buffers")
+set_km("<leader>fp", fzf.grep, "grep pattern")
+set_km("<leader>fc", fzf.grep_cword, "grep pattern under cursor")
+set_km("<leader>fg", fzf.git_diff, "grep pattern under cursor")
+set_km("<leader>fC", function() fzf.files({ cwd = "~/.config/" }) end, "find config files")
