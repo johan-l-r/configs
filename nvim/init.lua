@@ -2,45 +2,9 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
--- OPTIONS
-local opt = vim.opt
+require("configs.opts")
+require("configs.keymaps")
 
-opt.number = true
-opt.relativenumber = true
-opt.termguicolors = true
-opt.shiftwidth = 2
-opt.cursorline = true
-opt.tabstop = 2 
-opt.expandtab = true
-opt.colorcolumn = "100"
-opt.autoindent = true
-opt.splitright = true
-
--- KEYMAPS 
-function set_km(keys, action, desc, mode)
-  -- set default values to function arguments
-  desc = desc or ""
-  mode = mode or "n"
-
-  vim.keymap.set(mode, keys, action, { desc = desc })
-end
-
--- movement 
-set_km("G", "Gzz", "goto end of file and center the cursor")
-set_km("j", "jzz", "go down one line and center the cursor")
-set_km("k", "kzz", "go up one line and center the cursor")
-
--- shortcuts
-set_km("<leader>q", "<cmd>q<cr>", "quit active buffer")
-set_km("<leader>w", "<cmd>w<cr>", "write active buffer")
-
--- splits
-set_km("<leader>vs", "<cmd>vsplit<cr>", "open a new vertical split")
-set_km("<leader>hs", "<cmd>split<cr>", "open a new horizontal split")
-set_km("<C-h>", "<C-W>h", "move to left split")
-set_km("<C-j>", "<C-W>j", "move to top split")
-set_km("<C-k>", "<C-W>k", "move to bottom split")
-set_km("<C-l>", "<C-W>l", "move to right split")
 
 -- PLUGINS :)
 vim.pack.add({
@@ -49,6 +13,7 @@ vim.pack.add({
   { src = "https://github.com/nvim-tree/nvim-web-devicons" }, 
   { src = "https://github.com/bluz71/vim-moonfly-colors" }, 
   { src = "https://github.com/ibhagwan/fzf-lua" }, 
+  { src = "https://github.com/Saghen/blink.cmp" }, 
 })
 
 -- theme
@@ -102,7 +67,7 @@ local fzf = require("fzf-lua")
 
 fzf.setup({
   file_icon_padding = " ", 
-  
+
   winopts = {
     fullscreen = true, 
 
@@ -130,3 +95,26 @@ set_km("<leader>fc", fzf.grep_cword, "grep pattern under cursor")
 
 set_km("<leader>lh", fzf.git_hunks, "list hunks")
 set_km("<leader>lm", fzf.git_commits, "list project commits")
+
+-- blink.cmp
+local blink = require("blink.cmp")
+blink.setup({
+  keymap = { 
+    preset = "super-tab", 
+
+    [ "<C-k>" ] = { "select_prev", "fallback" },
+    [ "<C-j>" ] = { "select_next", "fallback" }
+  }, 
+  fuzzy = { implementation = "lua" },
+  signature = { enabled = true }
+})
+
+-- LSP 
+local servers = { "lua_ls", "pyright" }
+local capabilities = require('blink.cmp').get_lsp_capabilities()
+local opts = { settings = { capabilities = capabilities } }
+
+for _, server in ipairs(servers) do
+  vim.lsp.config(server, opts)
+  vim.lsp.enable(server)
+end
