@@ -2,23 +2,24 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
-require("configs.opts")
-require("configs.keymaps")
-
-
--- PLUGINS :)
 vim.pack.add({
-  { src = "https://github.com/lewis6991/gitsigns.nvim" }, 
-  { src = "https://github.com/nvim-tree/nvim-tree.lua" }, 
-  { src = "https://github.com/nvim-tree/nvim-web-devicons" }, 
-  { src = "https://github.com/bluz71/vim-moonfly-colors" }, 
-  { src = "https://github.com/ibhagwan/fzf-lua" }, 
-  { src = "https://github.com/Saghen/blink.cmp" }, 
+  { src = "https://github.com/lewis6991/gitsigns.nvim", name = "gsings" }, 
+  { src = "https://github.com/nvim-tree/nvim-tree.lua", name = "nvim-tree" }, 
+  { src = "https://github.com/nvim-tree/nvim-web-devicons", name = "icons" }, 
+  { src = "https://github.com/bluz71/vim-moonfly-colors", name = "theme" }, 
+  { src = "https://github.com/ibhagwan/fzf-lua", name = "fzf" }, 
+  { src = "https://github.com/Saghen/blink.cmp", name = "blink" }, 
 })
 
--- theme
+-- load plugins first and then require configs
+require("configs.opts")
+require("configs.keymaps")
+require("configs.autocmds")
+
+-----------------------------------------[ THEME ]---------------------------------------------
 vim.cmd("colorscheme moonfly")
--- gitsigns
+
+-----------------------------------------[ GITSIGNS ]---------------------------------------------
 local signs = require("gitsigns")
 
 signs.setup({
@@ -37,7 +38,7 @@ signs.setup({
   end
 })
 
--- nvimtree
+-----------------------------------------[ NVIM-TREE ]---------------------------------------------
 require("nvim-tree").setup({
   view = {
     width = 25, 
@@ -62,7 +63,7 @@ require("nvim-tree").setup({
 
 set_km("<leader>eo", "<cmd>NvimTreeToggle<cr>", "toggle file explorer")
 
--- fzf-lua 
+-----------------------------------------[ FZF-LUA ]---------------------------------------------
 local fzf = require("fzf-lua")
 
 fzf.setup({
@@ -84,6 +85,8 @@ fzf.setup({
   }
 })
 
+fzf.register_ui_select()
+
 -- files/buffers
 set_km("<leader>ff", fzf.files, "find files on current dir")
 set_km("<leader>fC", function() fzf.files({ cwd = "~/.config/" }) end, "find config files")
@@ -93,10 +96,11 @@ set_km("<leader>lb", fzf.buffers, "list buffers")
 set_km("<leader>fp", fzf.grep, "grep pattern")
 set_km("<leader>fc", fzf.grep_cword, "grep pattern under cursor")
 
+-- git
 set_km("<leader>lh", fzf.git_hunks, "list hunks")
 set_km("<leader>lm", fzf.git_commits, "list project commits")
 
--- blink.cmp
+-----------------------------------------[ BLINK.CMP ]---------------------------------------------
 local blink = require("blink.cmp")
 blink.setup({
   keymap = { 
@@ -109,12 +113,6 @@ blink.setup({
   signature = { enabled = true }
 })
 
--- LSP 
-local servers = { "lua_ls", "pyright" }
-local capabilities = require('blink.cmp').get_lsp_capabilities()
-local opts = { settings = { capabilities = capabilities } }
+-----------------------------------------[ ENABLE LSPS ]---------------------------------------------
+vim.lsp.enable("lua_ls")
 
-for _, server in ipairs(servers) do
-  vim.lsp.config(server, opts)
-  vim.lsp.enable(server)
-end

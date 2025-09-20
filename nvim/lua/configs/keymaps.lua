@@ -23,3 +23,6 @@ set_km("<C-j>", "<C-W>j", "move to top split")
 set_km("<C-k>", "<C-W>k", "move to bottom split")
 set_km("<C-l>", "<C-W>l", "move to right split")
 
+-- buffers
+set_km("<A-h>", "<cmd>bprevious<cr>", "goto prev buffer")
+set_km("<A-l>", "<cmd>bnext<cr>", "goto next buffer")
