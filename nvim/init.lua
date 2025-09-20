@@ -110,9 +110,12 @@ blink.setup({
     [ "<C-j>" ] = { "select_next", "fallback" }
   }, 
   fuzzy = { implementation = "lua" },
+  sources = {
+    default = { "lsp", "path", "buffer" }, 
+  },
   signature = { enabled = true }
 })
 
 -----------------------------------------[ ENABLE LSPS ]---------------------------------------------
-vim.lsp.enable("lua_ls")
+vim.lsp.enable({ "lua_ls", "pyright" })
 
