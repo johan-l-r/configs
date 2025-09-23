@@ -9,6 +9,10 @@ vim.pack.add({
   { src = "https://github.com/bluz71/vim-moonfly-colors", name = "theme" }, 
   { src = "https://github.com/ibhagwan/fzf-lua", name = "fzf" }, 
   { src = "https://github.com/Saghen/blink.cmp", name = "blink" }, 
+  { src = "https://github.com/m4xshen/autoclose.nvim", name = "autoclose" }, 
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", name = "treesitter", version = "master" }, 
+  { src = "https://github.com/Wansmer/treesj", name = "treesj" }, 
+  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", name = "md-renderer", }, 
 })
 
 -- load plugins first and then require configs
@@ -77,12 +81,6 @@ fzf.setup({
       vertical = "up:45%"
     }
   }, 
-  actions = {
-    files = { 
-      [ "ctrl-o" ] = fzf.actions.file_edit_or_qf, 
-      [ "ctrl-l" ] = fzf.actions.file_vsplit
-    }
-  }
 })
 
 fzf.register_ui_select()
@@ -116,6 +114,53 @@ blink.setup({
   signature = { enabled = true }
 })
 
------------------------------------------[ ENABLE LSPS ]---------------------------------------------
-vim.lsp.enable({ "lua_ls", "pyright" })
+------------------------------------[ TREESITTER AND TREESJ ]--------------------------------------
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { 'lua', "python", "c" },
+
+  auto_install = true, 
+
+highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+
+  indent = {
+    enable = true,
+  },
+
+  incremental_selection = {
+    enable = true,
+
+    keymaps = {
+      init_selection =  "<C-space>", 
+      node_incremental = "<C-space>", 
+      scope_incremental = false,
+      node_decremental =  "<C-space>",
+    },
+  }
+})
+
+require("treesj").setup()
+
+-----------------------------------------[ MARKDOWN RENDERER ]-------------------------------------
+local render_md = require('render-markdown')
+
+render_md.setup({
+  code = {
+    left_pad = 2,
+    language_pad = 2,
+  },
+  completions = { 
+    lsp = { enabled = true } 
+  }
+})
+
+set_km("<leader>rm", function() render_md.toggle() end, "toggle markdown rendering" )
+
+-----------------------------------------[ AUTOCLOSE ]---------------------------------------------
+require("autoclose").setup({ disable_command_mode = true })
+
+-----------------------------------------[ ENABLE LSPS ]-------------------------------------------
+vim.lsp.enable({ "lua_ls", "pyright", "bashls" })
 

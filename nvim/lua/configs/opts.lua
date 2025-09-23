@@ -10,3 +10,5 @@ opt.expandtab = true
 opt.colorcolumn = "100"
 opt.autoindent = true
 opt.splitright = true
+opt.winborder = "rounded"
+opt.swapfile = true

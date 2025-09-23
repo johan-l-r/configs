@@ -13,5 +13,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 
-  set_km("<leader>ca", fzf.lsp_code_actions, "display code actions")
+  set_km("<leader>ca", fzf.lsp_code_actions, "display code actions"), 
+  set_km("<leader>d", function() vim.diagnostic.open_float() end, "show diagnostic")
 })
